@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Adobe Systems Incorporated(r) Source Code License Agreement
+    Copyright(c) 2005 Adobe Systems Incorporated. All rights reserved.
+    
+    Please read this Source Code License Agreement carefully before using
+    the source code.
+    
+    Adobe Systems Incorporated grants to you a perpetual, worldwide, non-exclusive, 
+    no-charge, royalty-free, irrevocable copyright license, to reproduce,
+    prepare derivative works of, publicly display, publicly perform, and
+    distribute this source code and such derivative works in source or 
+    object code form without any attribution requirements.  
+    
+    The name "Adobe Systems Incorporated" must not be used to endorse or promote products
+    derived from the source code without prior written permission.
+    
+    You agree to indemnify, hold harmless and defend Adobe Systems Incorporated from and
+    against any loss, damage, claims or lawsuits, including attorney's 
+    fees that arise or result from your use or distribution of the source 
+    code.
+    
+    THIS SOURCE CODE IS PROVIDED "AS IS" AND "WITH ALL FAULTS", WITHOUT 
+    ANY TECHNICAL SUPPORT OR ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING,
+    BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+    FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  ALSO, THERE IS NO WARRANTY OF 
+    NON-INFRINGEMENT, TITLE OR QUIET ENJOYMENT.  IN NO EVENT SHALL ADOBE 
+    OR ITS SUPPLIERS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+    EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
+    PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+    OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+    WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR 
+    OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOURCE CODE, EVEN IF
+    ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" creationComplete="onCreationComplete();">
+	<mx:Script>
+		<![CDATA[
+			import __AS3__.vec.Vector;
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import com.adobe.httpeek.HTTPHeadersEvent;
+			import com.adobe.httpeek.Pipe;
+			import flash.net.ServerSocket;
+			import flash.events.ServerSocketConnectEvent;
+
+			private const HR:String = "------------------------------\n";
+
+			private var server:ServerSocket;
+			private var sockets:Array;
+			[Bindable] private var networkInterfaces:ArrayCollection;
+
+
+			private function onCreationComplete():void
+			{
+				this.nativeWindow.addEventListener(Event.CLOSING, onClosing);
+				NetworkInfo.networkInfo.addEventListener(Event.CHANGE, onNetworkInterfaceChange);
+				this.onNetworkInterfaceChange(null);
+			}
+			
+			private function onNetworkInterfaceChange(e:Event=null):void
+			{
+				this.networkInterfaces = new ArrayCollection();
+				var allNetworkInterfaces:Vector.<NetworkInterface> = NetworkInfo.networkInfo.findInterfaces();
+				for each (var networkInterface:NetworkInterface in allNetworkInterfaces)
+				{
+					var allAddresses:Vector.<InterfaceAddress> = networkInterface.addresses;
+					for each (var address:InterfaceAddress in allAddresses)
+					{
+						if (address.address.length == 0) continue;
+						this.networkInterfaces.addItem(address.address);
+					}
+				}
+			}
+			
+			private function onClosing(e:Event=null):void
+			{
+				for each (var pipe:Pipe in this.sockets)
+				{
+					pipe.tearDown();
+				}
+				if (this.server != null && this.server.bound)
+				{
+					this.server.close();
+				}
+			}
+
+			private function onSocketChange(e:MouseEvent):void
+			{
+				if (this.listenButton.label == "Listen")
+				{
+					this.onListen();
+				}
+				else
+				{
+					onClosing(null);
+					this.listenButton.label = "Listen";
+				}
+			}
+
+			private function onListen():void
+			{
+				this.output.text = "";
+				this.sockets = new Array();
+				this.server = new ServerSocket();
+				this.server.addEventListener(Event.CONNECT, onConnect);
+				try
+				{
+					this.server.bind(Number(this.portNumber.text), String(this.interfaces.value));
+					this.server.listen();
+					this.listenButton.label = "Close";
+				}
+				catch (e:Error)
+				{
+					Alert.show(e.message, "Error", Alert.OK);
+					return;
+				}
+				this.debugButton.enabled = true;
+			}
+			
+			private function onConnect(e:ServerSocketConnectEvent):void
+			{
+				var pipe:Pipe = new Pipe(e.socket);
+				pipe.addEventListener(Event.COMPLETE, onPipeComplete);
+				pipe.addEventListener(HTTPHeadersEvent.HTTP_HEADERS_EVENT, onIncomingHeaders);
+				this.sockets.push(pipe);
+			}
+			
+			private function onIncomingHeaders(e:HTTPHeadersEvent):void
+			{
+				this.output.text += (e.requestSignature + "\n");
+				this.outputHeaders(e.requestHeaders);
+				this.output.text += "\n";
+				this.output.text += (e.responseSignature + "\n");
+				this.outputHeaders(e.responseHeaders);
+				this.output.text += HR;
+			}
+			
+			private function outputHeaders(headers:Array):void
+			{
+				for each (var header:URLRequestHeader in headers)
+				{
+					if (header.value == null || header.value.length == 0) continue;
+					this.output.text += (header.name + ": " + header.value + "\n");
+				}
+			}
+			
+			private function onPipeComplete(e:Event):void
+			{
+				var pipeToRemove:Pipe = e.target as Pipe;
+				this.sockets.splice(this.sockets.indexOf(pipeToRemove), 1);
+			}
+			
+			private function onClear(e:MouseEvent):void
+			{
+				this.output.text = "";
+			}
+
+			private function onDebug(e:MouseEvent):void
+			{
+				this.output.text += ("bound: " + this.server.bound + "\n");
+				this.output.text += ("listening: " + this.server.listening + "\n");
+				this.output.text += ("port: " + this.server.localPort + "\n");
+				this.output.text += ("address: " + this.server.localAddress + "\n" + HR);
+				this.output.text += ("open sockets: " + this.sockets.length + "\n" + HR);
+			}
+
+		]]>
+	</mx:Script>
+	<mx:String id="instructions">
+		Before HTTPeek will work, you need to configure either your operating system's,
+		or your browser's, proxy settings to use HTTPeek as a proxy.
+		
+		The easiest thing to do is use the manual proxy configuration in Firefox.
+		Go to Advnaced > Network, then click on "Settings..." under "Configure how
+		Firefox connects to the Internet."
+		
+		Choose "Manual proxy configuraiton" and use the IP address and the port number
+		specified above.
+		
+		HTTPeek will not start listening for incoming connections until the
+		"Listen" button is clicked.
+	</mx:String>
+	<mx:VBox width="100%" height="100%" verticalGap="0">
+		<mx:HBox width="100%" paddingTop="4" paddingLeft="4" paddingRight="4" paddingBottom="4">
+			<mx:Label text="IP Address:" fontWeight="bold"/>
+			<mx:ComboBox id="interfaces" dataProvider="{networkInterfaces}" width="100%"/>
+			<mx:Label text="Port:" fontWeight="bold"/>
+			<mx:TextInput id="portNumber" text="8888" width="40"/>
+			<mx:Button id="listenButton" label="Listen" click="onSocketChange(event);"/>
+			<mx:Button id="debugButton" label="Debug" click="onDebug(event);" enabled="false"/>
+			<mx:Button label="Clear" click="onClear(event);" enabled="{output.text.length &gt; 0}"/>
+		</mx:HBox>
+		<mx:TextArea width="100%" height="100%" id="output" editable="false" text="{instructions}"/>
+	</mx:VBox>
+</mx:WindowedApplication>

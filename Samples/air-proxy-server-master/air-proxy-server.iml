@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="Flex" version="4">
+  <component name="FlexBuildConfigurationManager" active="air-proxy-server">
+    <configurations>
+      <configuration name="air-proxy-server" target-platform="Desktop" pure-as="true" main-class="Airproxyserver" output-file="Airproxyserver.swf" output-folder="$MODULE_DIR$/out/production/air-proxy-server">
+        <dependencies target-player="11.7">
+          <sdk name="air3.7_sdk_asc2_mac_033013" />
+        </dependencies>
+        <compiler-options />
+        <packaging-air-desktop package-file-name="Airproxyserver" />
+        <packaging-android />
+        <packaging-ios />
+      </configuration>
+    </configurations>
+    <compiler-options />
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="air3.7_sdk_asc2_mac_033013" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
+
