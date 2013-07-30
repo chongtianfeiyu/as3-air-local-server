@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="libs1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/library/AIRServer/libs/CocoonP2P-0.8.swc!/" />
+      <root url="jar://$PROJECT_DIR$/library/AIRServer/libs/blooddy_crypto.swc!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

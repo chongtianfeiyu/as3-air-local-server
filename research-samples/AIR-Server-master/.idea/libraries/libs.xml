@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/demos/spacegame/SpaceGameClient/libs/library.swc!/" />
+      <root url="jar://$PROJECT_DIR$/demos/spacegame/SpaceGameClient/libs/embeds.swc!/" />
+      <root url="jar://$PROJECT_DIR$/demos/spacegame/SpaceGameClient/libs/greensock.swc!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

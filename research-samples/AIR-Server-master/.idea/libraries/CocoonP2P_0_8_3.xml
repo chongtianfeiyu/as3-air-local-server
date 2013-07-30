@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="CocoonP2P-0.8.3">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/demos/basic/clients/MessagesDemoClientCocoonP2P/libs/CocoonP2P-0.8.3.swc!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

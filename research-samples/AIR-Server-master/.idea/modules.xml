@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/library/AIRServer/AIRServer.iml" filepath="$PROJECT_DIR$/library/AIRServer/AIRServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/demos/basic/server/ImagesDemoServer/ImagesDemoServer.iml" filepath="$PROJECT_DIR$/demos/basic/server/ImagesDemoServer/ImagesDemoServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/demos/spacegame/SpaceGameClient/SpaceGameClient.iml" filepath="$PROJECT_DIR$/demos/spacegame/SpaceGameClient/SpaceGameClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/demos/spacegame/SpaceGameServer/SpaceGameServer.iml" filepath="$PROJECT_DIR$/demos/spacegame/SpaceGameServer/SpaceGameServer.iml" />
+    </modules>
+  </component>
+</project>
+
