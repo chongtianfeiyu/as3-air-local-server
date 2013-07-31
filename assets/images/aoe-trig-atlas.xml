@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:9e3f0cd0ba07821e566ec9b53597db27:1/1$ -->
+<TextureAtlas imagePath="aoe-trig-atlas.png">
+    <SubTexture name="list_0000_cosine_law" x="2" y="174" width="170" height="170"/>
+    <SubTexture name="list_0001_sine_law" x="2" y="2" width="170" height="170"/>
+</TextureAtlas>
