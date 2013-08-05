@@ -1,6 +1,5 @@
 package feathers.examples.componentsExplorer {
 
-    
     import feathers.controls.ScreenNavigator;
     import feathers.controls.ScreenNavigatorItem;
     import feathers.controls.ScrollContainer;
@@ -19,8 +18,6 @@ package feathers.examples.componentsExplorer {
     import starling.display.Sprite;
     import starling.events.Event;
     import starling.events.ResizeEvent;
-	
-
 
     public class Main extends Sprite {
         private static const MAIN_MENU:String = "mainMenu";
@@ -68,14 +65,14 @@ package feathers.examples.componentsExplorer {
                         settings: textInputSettings
                     }));
 			
-			this._navigator.addScreen(SHOW_PROTOTYPE_MANAGER, new ScreenNavigatorItem( PrototypeManagerScreen,
+			/*this._navigator.addScreen(SHOW_PROTOTYPE_MANAGER, new ScreenNavigatorItem( PrototypeManagerScreen,
 				{
 					complete    : MAIN_MENU
 				},
 				{
 					settings: textInputSettings
 				}));
-
+*/
 
 
            

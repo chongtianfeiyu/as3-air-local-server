@@ -52,8 +52,9 @@ package feathers.examples.componentsExplorer.screens
 			this._list = new List();
 			this._list.dataProvider = new ListCollection(
 			[
-				{ label: "Server", event: SHOW_SERVER},
-				{ label: "Prototype Manager", event: SHOW_PROTOTYPE_MANAGER}
+//				{ label: "Server", event: SHOW_SERVER},
+				{ label: "Server", event: SHOW_SERVER}
+//				{ label: "Prototype Manager", event: SHOW_PROTOTYPE_MANAGER}
 				
 			]);
 			this._list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
