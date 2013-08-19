@@ -6,7 +6,7 @@ package specs
     /**
     * @author Ben Smith
     */
-   public class Specs extends Object
+   public class Params extends Object
    {
 	   
 	   public static const PADDING_LEFT:Number = 20;;
@@ -19,7 +19,7 @@ package specs
       private var _specsFactory : IMobileSpecsFactory;
       private var _singletonMobileSpecs : MobileSpecs;
 
-      public function Specs()
+      public function Params()
       {
       }
 

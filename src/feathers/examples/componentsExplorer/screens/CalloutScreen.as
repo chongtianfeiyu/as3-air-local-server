@@ -108,7 +108,7 @@ package feathers.examples.componentsExplorer.screens
 			if(!this._message)
 			{
 				this._message = new Label();
-				this._message.text = CONTENT_TEXT;
+				this._message.text = CONTENT_TEXT; 
 			}
 			const callout:Callout = Callout.show(DisplayObject(this._message), origin, direction);
 			//we're reusing the message every time that this screen shows a

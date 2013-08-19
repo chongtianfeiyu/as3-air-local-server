@@ -17,15 +17,15 @@ package
 	import flash.system.Capabilities;
 	import flash.utils.ByteArray;
 	
-	import specs.Specs;
+	import specs.Params;
 
 	
 	import starling.core.Starling;
 
 	[SWF(width="1024",height="768", frameRate="60", backgroundColor="#4a4137")]
-	public class LocalAIRServer extends Sprite
+	public class SherpaManager extends Sprite
 	{
-		public function LocalAIRServer()
+		public function SherpaManager()
 		{
 			if(this.stage)
 			{
@@ -100,12 +100,12 @@ package
 		}
 		
 
-		public var _mobileSpecsReference:Specs;
+		public var _mobileSpecsReference:Params;
 		
 		private function loaderInfo_completeHandler(event:Event):void
 		{
 
-			_mobileSpecsReference = new Specs();
+			_mobileSpecsReference = new Params();
 
 			
 			

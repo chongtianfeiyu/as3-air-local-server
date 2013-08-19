@@ -11,6 +11,7 @@ package feathers.examples.componentsExplorer.screens {
     import flash.utils.ByteArray;
     
     import feathers.controls.Button;
+    import feathers.controls.Callout;
     import feathers.controls.ImageLoader;
     import feathers.controls.Label;
     import feathers.controls.PanelScreen;
@@ -22,7 +23,7 @@ package feathers.examples.componentsExplorer.screens {
     import feathers.layout.AnchorLayoutData;
     import feathers.system.DeviceCapabilities;
     
-    import specs.Specs;
+    import specs.Params;
     
     import starling.core.Starling;
     import starling.display.DisplayObject;
@@ -76,6 +77,7 @@ package feathers.examples.componentsExplorer.screens {
 			mimeTypes[".jpg"] 	= "image/jpeg";
 			mimeTypes[".js"] 	= "application/x-javascript";
 			mimeTypes[".png"] 	= "image/png";
+			mimeTypes[".swf"] 	= "application/x-shockwave-flash";
 			
 			this.layout = new AnchorLayout();
 			
@@ -83,8 +85,8 @@ package feathers.examples.componentsExplorer.screens {
 			this._portLabel = new Label();
 			this._portLabel.text = "Port:";
 			const _portLabelLayoutData:AnchorLayoutData = new AnchorLayoutData();
-			_portLabelLayoutData.left = Specs.PADDING_LEFT;
-			_portLabelLayoutData.top = Specs.PADDING_TOP;
+			_portLabelLayoutData.left = Params.PADDING_LEFT;
+			_portLabelLayoutData.top = Params.PADDING_TOP;
 			this._portLabel.layoutData = _portLabelLayoutData;
 			this.addChild( this._portLabel );
 			
@@ -97,8 +99,8 @@ package feathers.examples.componentsExplorer.screens {
 			this._port.isEditable = true;
 			
 			const _portLayoutData:AnchorLayoutData = new AnchorLayoutData();
-			_portLayoutData.left = Specs.SERVER_LAYOUT_COL2;
-			_portLayoutData.top = Specs.PADDING_TOP;
+			_portLayoutData.left = Params.SERVER_LAYOUT_COL2;
+			_portLayoutData.top = Params.PADDING_TOP;
 			
 			this._port.layoutData = _portLayoutData;
 			this.addChild(this._port);
@@ -107,8 +109,8 @@ package feathers.examples.componentsExplorer.screens {
 			this._webRootLabel = new Label();
 			this._webRootLabel.text = "WebRoot:";
 			const _webRootLabelLayoutData:AnchorLayoutData = new AnchorLayoutData();
-			_webRootLabelLayoutData.left = Specs.PADDING_LEFT;
-			_webRootLabelLayoutData.top = Specs.PADDING_TOP + Specs.VERTICAL_GAP;
+			_webRootLabelLayoutData.left = Params.PADDING_LEFT;
+			_webRootLabelLayoutData.top = Params.PADDING_TOP + Params.VERTICAL_GAP;
 			
 			this._webRootLabel.layoutData = _webRootLabelLayoutData;
 			this.addChild( this._webRootLabel );
@@ -122,8 +124,8 @@ package feathers.examples.componentsExplorer.screens {
 			this._webRootInput.isEditable = true;
 			
 			const _webRootInputData:AnchorLayoutData = new AnchorLayoutData();
-			_webRootInputData.left = Specs.SERVER_LAYOUT_COL2;
-			_webRootInputData.top = Specs.PADDING_TOP + Specs.VERTICAL_GAP;
+			_webRootInputData.left = Params.SERVER_LAYOUT_COL2;
+			_webRootInputData.top = Params.PADDING_TOP + Params.VERTICAL_GAP;
 			
 			this._webRootInput.layoutData = _webRootInputData;
 			this.addChild(this._webRootInput);
@@ -135,8 +137,8 @@ package feathers.examples.componentsExplorer.screens {
 			this._webRootSetRootButton.addEventListener(starling.events.Event.TRIGGERED, selectWebRootDirectory);
 			
 			const _webRootSetRootButtonnLayoutData:AnchorLayoutData = new AnchorLayoutData();
-			_webRootSetRootButtonnLayoutData.left = Specs.PADDING_LEFT + _webRootInputWidth + 20 + Specs.SERVER_LAYOUT_COL2;
-			_webRootSetRootButtonnLayoutData.top = Specs.PADDING_TOP + (Specs.VERTICAL_GAP);
+			_webRootSetRootButtonnLayoutData.left = Params.PADDING_LEFT + _webRootInputWidth + 20 + Params.SERVER_LAYOUT_COL2;
+			_webRootSetRootButtonnLayoutData.top = Params.PADDING_TOP + (Params.VERTICAL_GAP);
 			
 			this._webRootSetRootButton.layoutData = _webRootSetRootButtonnLayoutData;
 			this.addChild( this._webRootSetRootButton );
@@ -153,8 +155,8 @@ package feathers.examples.componentsExplorer.screens {
 			this._startServerButton.addEventListener(starling.events.Event.TRIGGERED, listen);
 			
 			const _startServerButtonLayoutData:AnchorLayoutData = new AnchorLayoutData();
-			_startServerButtonLayoutData.left = Specs.PADDING_LEFT;
-			_startServerButtonLayoutData.top = Specs.PADDING_TOP + (Specs.VERTICAL_GAP * 2);
+			_startServerButtonLayoutData.left = Params.PADDING_LEFT;
+			_startServerButtonLayoutData.top = Params.PADDING_TOP + (Params.VERTICAL_GAP * 2);
 			
 			this._startServerButton.layoutData = _startServerButtonLayoutData;
 			this.addChild( this._startServerButton );
@@ -169,8 +171,8 @@ package feathers.examples.componentsExplorer.screens {
 			this.log.height = 500;
 			
 			const logLayoutData:AnchorLayoutData = new AnchorLayoutData();
-			logLayoutData.left = Specs.PADDING_LEFT;
-			logLayoutData.top = Specs.PADDING_TOP + (Specs.VERTICAL_GAP * 3);
+			logLayoutData.left = Params.PADDING_LEFT;
+			logLayoutData.top = Params.PADDING_TOP + (Params.VERTICAL_GAP * 3);
 			
 			this.log.layoutData = logLayoutData;
 			
@@ -249,6 +251,10 @@ package feathers.examples.componentsExplorer.screens {
 			}
 			catch (error:Error)
 			{
+				var msg:Label = new Label();
+				msg.text = "Port " + this._port.text + " may be in use. Enter another port number and try again.";
+				const callout:Callout = Callout.show(DisplayObject(msg), this._port, Callout.DIRECTION_DOWN);
+				//const callout:Callout = Callout.show(DisplayObject(this._message), origin, direction);
 				//TODO Add Alert
 //				Alert.show("Port " + port.text + 
 //					" may be in use. Enter another port number and try again.\n(" +

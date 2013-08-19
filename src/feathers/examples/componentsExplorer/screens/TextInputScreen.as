@@ -13,7 +13,7 @@ package feathers.examples.componentsExplorer.screens
 	import starling.display.DisplayObject;
 	import starling.events.Event;
 	
-	import specs.Specs;
+	import specs.Params;
 
 	[Event(name="complete",type="starling.events.Event")]
 	[Event(name="showSettings",type="starling.events.Event")]

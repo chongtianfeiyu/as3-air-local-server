@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>as3-air-local-server</name>
+	<name>sherpa-manager</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -20,11 +20,4 @@
 		<nature>com.adobe.flexbuilder.project.apollonature</nature>
 		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>[source path] as</name>
-			<type>2</type>
-			<location>C:/Users/jerry_orta/Documents/GitHub/dell/Flash-Builder-Templates/as3-library/lib/feathers/as</location>
-		</link>
-	</linkedResources>
 </projectDescription>

@@ -94,7 +94,7 @@ package feathers.examples.componentsExplorer {
                     this._menu.addEventListener(eventType, mainMenuEventHandler);
                 }
                 const menuLayoutData:AnchorLayoutData = new AnchorLayoutData();
-                menuLayoutData.top = 0;
+                menuLayoutData.top = 100;
                 menuLayoutData.bottom = 0;
                 menuLayoutData.left = 0;
                 this._menu.layoutData = menuLayoutData;
@@ -102,7 +102,7 @@ package feathers.examples.componentsExplorer {
 
                 this._navigator.clipContent = true;
                 const navigatorLayoutData:AnchorLayoutData = new AnchorLayoutData();
-                navigatorLayoutData.top = 0;
+                navigatorLayoutData.top = 100;
                 navigatorLayoutData.right = 0;
                 navigatorLayoutData.bottom = 0;
                 navigatorLayoutData.leftAnchorDisplayObject = this._menu;
