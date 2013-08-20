@@ -20,7 +20,7 @@ package feathers.examples.componentsExplorer.screens
 	[Event(name="complete",type="starling.events.Event")]
 	[Event(name="showServer",type="starling.events.Event")]
 	[Event(name="showPrototypeManager",type="starling.events.Event")]
-
+	[Event(name="intro", type="starling.events.Event")]
 
 	public class MainMenuScreen extends PanelScreen
 	{
@@ -43,7 +43,8 @@ package feathers.examples.componentsExplorer.screens
 
 			this.layout = new AnchorLayout();
 
-			this.headerProperties.title = "Prototype Manager";
+			//Let's not show header... yuk design
+//			this.headerProperties.title = " ";
 
 			this._list = new List();
 			this._list.dataProvider = new ListCollection(

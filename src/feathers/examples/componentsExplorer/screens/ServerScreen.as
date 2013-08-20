@@ -79,7 +79,6 @@ package feathers.examples.componentsExplorer.screens {
 			mimeTypes[".png"] 	= "image/png";
 			mimeTypes[".swf"] 	= "application/x-shockwave-flash";
 			
-			this.layout = new AnchorLayout();
 			
 			// ====================  PORT =========================
 			this._portLabel = new Label();
@@ -179,7 +178,7 @@ package feathers.examples.componentsExplorer.screens {
 			this.addChild( this.log );
 			
 			// ====================  HEADER PROPERTIES =========================
-            this.headerProperties.title = "Server";
+//            this.headerProperties.title = " ";
 
             if (!DeviceCapabilities.isTablet(Starling.current.nativeStage)) {
                 this._backButton = new Button();
@@ -201,14 +200,7 @@ package feathers.examples.componentsExplorer.screens {
 			// ====================  SETTINGS PROPERTIES =========================
 			
 			
-//            this._settingsButton = new Button();
-//            this._settingsButton.label = "Settings";
-//            this._settingsButton.addEventListener(Event.TRIGGERED, settingsButton_triggeredHandler);
 
-//            this.headerProperties.rightItems = new <DisplayObject>
-//                    [
-//                        this._settingsButton
-//                    ];
         }
 		
 		private function selectWebRootDirectory():void {

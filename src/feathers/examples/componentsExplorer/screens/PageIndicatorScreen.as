@@ -7,7 +7,7 @@ package feathers.examples.componentsExplorer.screens
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.system.DeviceCapabilities;
-
+	
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
@@ -29,7 +29,7 @@ package feathers.examples.componentsExplorer.screens
 			this.layout = new AnchorLayout();
 
 			this._pageIndicator = new PageIndicator();
-			this._pageIndicator.pageCount = 5;
+			this._pageIndicator.pageCount = 2;
 			this._pageIndicator.addEventListener(Event.CHANGE, pageIndicator_changeHandler);
 			const pageIndicatorLayoutData:AnchorLayoutData = new AnchorLayoutData();
 			pageIndicatorLayoutData.left = 0;

@@ -28,11 +28,11 @@ package feathers.themes
     import flash.text.TextFormat;
     import flash.text.TextFormatAlign;
     
-    import feathers.aoe.trig.text.LabelInputNumber;
     import feathers.controls.List;
     import feathers.controls.TextInput;
+    import feathers.themes.text.ItalicInstructionsLabel;
+    import feathers.themes.text.LabelHeaderLabel;
     
-    import starling.core.Starling;
     import starling.display.DisplayObjectContainer;
     import starling.display.Quad;
 
@@ -40,10 +40,11 @@ package feathers.themes
 	public class AIRServerTheme extends MetalWorksMobileThemeSuper
 	{
 
-		//TODO Font for Custom Label
 		[Embed(source="/../assets/fonts/SourceSansPro-Light.ttf",fontName="SourceSansProLight",fontWeight="bold",mimeType="application/x-font",embedAsCFF="false")]
 		protected static const SOURCE_SANS_PRO_LIGHT:Class;
 
+		[Embed(source="/../assets/fonts/SourceSansPro-LightIt.ttf",fontName="SourceSansProLightItalic",fontWeight="normal",mimeType="application/x-font",embedAsCFF="false")]
+		protected static const SOURCE_SANS_PRO_LIGHT_ITALIC:Class;
 
 		/**
 		 * The background of the entire list. Not the the item renderer background color. 
@@ -51,8 +52,8 @@ package feathers.themes
 		protected static const LIST_BACKGROUND_COLOR:uint = 0x383430;
 
 
-        protected var smallLightNumberInputField:TextFormat;
-
+        protected var smallLightNumberInputFieldFormat:TextFormat;
+		protected var italicizedInstructionInputFieldFormat:TextFormat;
 
 
 		public function AIRServerTheme( container:DisplayObjectContainer = null, scaleToDPI:Boolean = true )
@@ -64,32 +65,28 @@ package feathers.themes
 		override protected function initializeRoot():void
 		{
 			super.initializeRoot();
-			
-			
-
-			
 		}
 		
 		private const fontScale:Number = 3;
 		private const HEADER_SIZE:Number = 36 * fontScale; //original was 36
 		private const SMALL_FONT_SIZE:Number = 24 * fontScale; //original was 24
 		private const LARGE_FONT_SIZE:Number = 28 * fontScale; //original was 28
+		private const INSTRUCTIONS_ITALIC_SIZE:Number = 16 * fontScale;
+		
+
 
         override protected function initialize():void {
             super.initialize();
 
             const lightFontNames:String = "SourceSansProLight";
-			
-			
-			
-			
+			const italicFontNames:String = "SourceSansProLightItalic";
 			
 
             //regularFontNames looks better than light Font Names
-            this.smallLightNumberInputField = new TextFormat(regularFontNames, LARGE_FONT_SIZE * this.scale, LIGHT_TEXT_COLOR, true);
+            this.smallLightNumberInputFieldFormat = new TextFormat(regularFontNames, LARGE_FONT_SIZE * this.scale, LIGHT_TEXT_COLOR, true);
 
-            this.setInitializerForClass(LabelInputNumber, LabelInputNumberInitializer);
-			
+			this.setInitializerForClass(LabelHeaderLabel, LabelHeaderInitializer);
+			this.setInitializerForClass(ItalicInstructionsLabel, smallItalicizedInstructionsInitializer);
 			
 			this.headerTextFormat = new TextFormat(semiboldFontNames, Math.round(HEADER_SIZE * this.scale), LIGHT_TEXT_COLOR, true);
 
@@ -114,13 +111,22 @@ package feathers.themes
 			this.largeLightTextFormat = new TextFormat(regularFontNames, LARGE_FONT_SIZE * this.scale, LIGHT_TEXT_COLOR);
 			this.largeDisabledTextFormat = new TextFormat(regularFontNames, LARGE_FONT_SIZE * this.scale, DISABLED_TEXT_COLOR);
 
+			this.italicizedInstructionInputFieldFormat = new TextFormat(italicFontNames, INSTRUCTIONS_ITALIC_SIZE * this.scale, LIGHT_TEXT_COLOR);
+			
         }
-
-        private function LabelInputNumberInitializer(labelInputNumber:LabelInputNumber):void {
-            labelInputNumber.textRendererProperties.textFormat = this.smallLightNumberInputField;
-            labelInputNumber.textRendererProperties.embedFonts = true;
-        }
-
+		
+		private function LabelHeaderInitializer( labelHeaderText:LabelHeaderLabel ):void
+		{
+			labelHeaderText.textRendererProperties.textFormat = this.headerTextFormat;
+			labelHeaderText.textRendererProperties.embedFonts = true;
+		}
+		
+		private function smallItalicizedInstructionsInitializer( instructionsText:ItalicInstructionsLabel):void
+		{
+			instructionsText.textRendererProperties.textFormat = this.italicizedInstructionInputFieldFormat;
+			instructionsText.textRendererProperties.embedFonts = true;
+		}
+		
 
 		//TODO override list here
 		override protected function listInitializer(list:List):void
