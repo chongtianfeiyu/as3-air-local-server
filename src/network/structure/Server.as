@@ -28,19 +28,19 @@ package network.structure
 		
 		private var log:String;
 		
-		public function Server( params:ServerItem )
+		public function Server( _serverProps:ServerItem )
 		{
 			this.log = "";
 			
-			this._serverItem = params;
-			this._name = params.name;
+			this._serverItem = _serverProps;
+			this._name = _serverProps.name;
 			
-			if (params.port) {
-				this._port = params.port;
+			if (_serverProps.port) {
+				this._port = _serverProps.port;
 			}
 			
-			if (params.directory != null) {
-				this._webRootDirectory = params.directory;
+			if (_serverProps.directory != null) {
+				this._webRootDirectory = _serverProps.directory;
 			}
 			
 			mimeTypes = new Dictionary();
@@ -60,8 +60,7 @@ package network.structure
 			mimeTypes[".png"] 	= "image/png";
 			mimeTypes[".swf"] 	= "application/x-shockwave-flash";
 			
-			_webRootDirectory = this._webRootDirectory;
-			trace(this._webRootDirectory.nativePath);
+			trace( "SERVER WEBROOT: " + this._webRootDirectory.nativePath);
 			
 		}
 		

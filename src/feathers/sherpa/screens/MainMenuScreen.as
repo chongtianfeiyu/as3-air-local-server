@@ -1,4 +1,4 @@
-package feathers.examples.componentsExplorer.screens
+package feathers.sherpa.screens
 {
 	import feathers.controls.List;
 	import feathers.controls.PanelScreen;

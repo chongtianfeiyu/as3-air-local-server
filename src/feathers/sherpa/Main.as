@@ -1,8 +1,7 @@
-package feathers.examples.componentsExplorer {
+package feathers.sherpa {
 
     import com.probertson.database.DatabaseManager;
-    import com.probertson.database.Template;
-    import com.probertson.database.structure.Database;
+    import com.probertson.database.Database;
     
     import flash.display.BitmapData;
     
@@ -11,16 +10,20 @@ package feathers.examples.componentsExplorer {
     import feathers.controls.ScreenNavigator;
     import feathers.controls.ScreenNavigatorItem;
     import feathers.controls.ScrollContainer;
-    import feathers.examples.componentsExplorer.data.EmbeddedAssets;
-    import feathers.examples.componentsExplorer.data.TextInputSettings;
-    import feathers.examples.componentsExplorer.screens.IntroScreen;
-    import feathers.examples.componentsExplorer.screens.MainMenuScreen;
-    import feathers.examples.componentsExplorer.screens.ServerScreen;
     import feathers.layout.AnchorLayout;
     import feathers.layout.AnchorLayoutData;
     import feathers.motion.transitions.ScreenSlidingStackTransitionManager;
+    import feathers.sherpa.data.EmbeddedAssets;
+    import feathers.sherpa.data.TextInputSettings;
+    import feathers.sherpa.screens.IntroScreen;
+    import feathers.sherpa.screens.MainMenuScreen;
+    import feathers.sherpa.screens.ServerScreen;
     import feathers.system.DeviceCapabilities;
     import feathers.themes.AIRServerTheme;
+    
+    import network.ServerManager;
+    import network.structure.Server;
+    import network.structure.ServerItem;
     
     import specs.Params;
     
@@ -57,7 +60,7 @@ package feathers.examples.componentsExplorer {
 		
 		//DATABASE
 
-		private var _appDatabaseParams:Template;
+		private var _appDatabaseParams:DatabaseParams;
 
         private function layoutForTablet():void {
             this._container.width = this.stage.stageWidth;
@@ -71,10 +74,19 @@ package feathers.examples.componentsExplorer {
 			new AIRServerTheme();
 
 			//DATABASE CONFIG
-			const _database:Database  = new Database( Params.DATABASE_NAME );
-			_appDatabaseParams = new DatabaseParams( _database );
-			DatabaseManager.addDatabase( _appDatabaseParams );
+			const _database:Database  = new Database( Params.SHERPA_DATABASE );
+			DatabaseManager.addDatabase( _database );
+			DatabaseManager.getDatabase( Params.SHERPA_DATABASE ).onComplete = this.serverDataResult;
+//			DatabaseManager.getDatabase( Params.SHERPA_DATABASE ).init();
+
 			
+        }
+		
+		private function serverDataResult():void 
+		{
+			trace( "serverDataResult");
+			const _serverItem:ServerItem = DatabaseManager.getDatabase( Params.SHERPA_DATABASE ).getTableByName( Params.SERVER_TABLE_NAME ).data[ Params.SERVER_DATA ];
+						
 			this._navigator = new ScreenNavigator();
 			
 			const textInputSettings:TextInputSettings = new TextInputSettings();
@@ -86,23 +98,24 @@ package feathers.examples.componentsExplorer {
 					settings: textInputSettings
 				}));
 			
-			//			
-			//			this._navigator.addScreen(SHOW_INTRO, new ScreenNavigatorItem( IntroScreen,
-			//				{
-			//					complete    : MAIN_MENU
-			//				}
-			//				));
-			//			
+		
 			buildMastHead();
 			
-			if ( DatabaseManager.getDatabase( Params.DATABASE_NAME ).exists )
-			{
+			
+			if (DatabaseManager.getDatabase( Params.SHERPA_DATABASE ).exists && _serverItem.webRoot != null )
+			{			
+				trace(" MENU LAYOUT ");
+				//Start Server
+				const _server:Server = new Server( _serverItem );
+				ServerManager.addServer( _server );
+				ServerManager.getServer( Params.SHERPA_SERVER ).start();
+				
 				menuLayout();
 			} else {
+				trace(" INTRO LAYOUT ");
 				introLayout();
 			}	
-            
-        }
+		}
 		
 		private var _introInit:Boolean = false;
 		private var intro:IntroScreen;
@@ -123,6 +136,7 @@ package feathers.examples.componentsExplorer {
 		
 		private function introComplete( event:Event ):void 
 		{
+			trace("REMOVE INTRO");
 			this.intro.removeEventListener(Event.COMPLETE, introComplete);
 			this._container.removeChild( this.intro );
 			this.intro = null;
@@ -182,13 +196,7 @@ package feathers.examples.componentsExplorer {
             this._transitionManager.skipNextTransition = true;
 			
 			this._navigator.showScreen( screenName );
-			
-//			if ( DatabaseManager.getDatabase( Params.DATABASE_NAME ).exists )
-//			{
-//			 	this._navigator.showScreen( screenName );
-//			} else {
-//				this._navigator.showScreen( SHOW_INTRO );
-//			}
+
            
         }
 

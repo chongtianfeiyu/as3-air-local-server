@@ -1,10 +1,10 @@
-package feathers.examples.componentsExplorer.screens {
+package feathers.sherpa.screens {
     import feathers.controls.Button;
     import feathers.controls.ImageLoader;
     import feathers.controls.PanelScreen;
     import feathers.controls.TextInput;
     import feathers.events.FeathersEventType;
-    import feathers.examples.componentsExplorer.data.TextInputSettings;
+    import feathers.sherpa.data.TextInputSettings;
     import feathers.layout.AnchorLayoutData;
     import feathers.system.DeviceCapabilities;
     

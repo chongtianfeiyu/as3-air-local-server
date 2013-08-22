@@ -27,16 +27,20 @@ package network.structure
 
 		public function get webRoot():String
 		{
-			return unescape(_webRoot);
+			return unescape( _webRoot );
 		}
 
 		public function set webRoot(value:String):void
 		{
-			_webRoot = escape(value);
+			_webRoot = value;
 		}
 
 		public function get directory():File
 		{
+			if (!_directory)
+			{
+				_directory = new File( this.webRoot );
+			}
 			return _directory;
 		}
 

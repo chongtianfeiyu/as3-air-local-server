@@ -2,7 +2,7 @@ package
 {
 	import flash.display.Sprite;
 	
-	import feathers.examples.componentsExplorer.Main;
+	import feathers.sherpa.Main;
 	
 	import flash.display.Loader;
 	import flash.display.Sprite;

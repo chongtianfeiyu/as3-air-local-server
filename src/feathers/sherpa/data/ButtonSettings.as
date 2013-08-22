@@ -1,4 +1,4 @@
-package feathers.examples.componentsExplorer.data
+package feathers.sherpa.data
 {
 	import feathers.controls.Button;
 

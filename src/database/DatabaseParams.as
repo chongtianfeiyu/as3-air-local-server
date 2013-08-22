@@ -1,8 +1,8 @@
 package database
 {
-	import com.probertson.database.Template;
+	import com.probertson.database.interfaces.IDatabase;
 	import com.probertson.database.structure.Column;
-	import com.probertson.database.structure.Database;
+	import com.probertson.database.Database;
 	import com.probertson.database.structure.Table;
 	
 	import flash.data.SQLResult;
@@ -12,7 +12,7 @@ package database
 	import specs.Params;
 
 	
-	public class DatabaseParams extends Template
+	public class DatabaseParams extends Database implements IDatabase
 	{
 		
 		
@@ -20,53 +20,41 @@ package database
 		private var serverTable:Table;
 
 		
-		public function DatabaseParams(db:Database)
+		public function DatabaseParams(databaseFilename:String)
 		{
-
-			super(db);
+			super(databaseFilename);
 		}
 		
 		//--- Database exists alogorithms
 
 		override protected function databaseExistsAlgorithm():void
 		{
-						
-			trace("database exists");
-			this.getServerItem();
-			
+
 		}
 		
 		override protected function databaseNotExistsAlgorithm():void
 		{
-//			this.db._executeBatch_complete = this.resultServerItem
-				
 			trace("database not exists");
 			this.createTablesInDatabaseFile(); //hard coded
 			this.insertDefaultData(); //user interface to collect data
-			this.db.executeModify(); //User event to fire
+			this.executeModify(); //User event to fire
 		}
 		
 		
 		//--- Get Server Data from Database
 		public function getServerItem():void
 		{
-			this.execute_complete = this.resultServerItem;
+			this._execute_complete = this.resultServerItem;
 			this.getDataFromDatabase( Params.SERVER_TABLE_NAME );
 		}
-		/*
-		public function getUserItem():void
-		{
-			this.execute_complete = this.resultUserItem;
-			this.getDataFromDatabase( this.USER_TABLE_NAME );
-		}
-*/
+		
 		
 		// Data Base setup methods
 		override protected function createTableAndColumnStructure():void
 		{
 
 			serverTable = new Table( Params.SERVER_TABLE_NAME );
-			db.add(  serverTable );
+			this.add(  serverTable );
 
 			var serverTableObject:Object = {
 				"id" : Column.INT_PK_AI,
@@ -80,13 +68,13 @@ package database
 
 		}
 		
-		override protected function createTablesInDatabaseFile(  ):void
+		override public function createTablesInDatabaseFile(  ):void
 		{
-			db.createTable( serverTable );
+			this.createTable( serverTable );
 		}
 		
 
-		override protected function insertDefaultData():void
+		override public function insertDefaultData():void
 		{
 			
 			var serverData:ServerItem = new ServerItem();
@@ -97,31 +85,26 @@ package database
 			obj.port = 8080;
 			obj.webRoot = "";
 			
-			db.getTableByName( Params.SERVER_TABLE_NAME ).data[ Params.SERVER_DATA ] = serverData;
-			db.insert( serverTable, obj );
+			this.getTableByName( Params.SERVER_TABLE_NAME ).data[ Params.SERVER_DATA ] = serverData;
+			this.insert( serverTable, obj );
 		}
 		
 
 		private function resultServerItem(result:SQLResult):void
 		{
 			var obj:ServerItem = result.data[0];
-			db.getTableByName( Params.SERVER_TABLE_NAME ).data[ Params.SERVER_DATA ] = obj;
+			obj.name = Params.SHERPA_SERVER;
+			this.getTableByName( Params.SERVER_TABLE_NAME ).data[ Params.SERVER_DATA ] = obj;
+			this.callBack();
 		}
 		
-		override protected function executeBatch_complete(results:Object):void
+		override public function executeBatch_complete(results:Object):void
 		{
 			super.executeBatch_complete(results);
-			
-//			if (results is Vector.<SQLResult>) {
-//
-//				db.getTableByName( Params.SERVER_TABLE_NAME ).data[ Params.SERVER_DATA ].id = (results as Vector.<SQLResult>)[0].lastInsertRowID;
-//				trace ((results as Vector.<SQLResult>)[0].lastInsertRowID);
-//			}
-			
 			//Has to be another way to get last row inserted
-			this.execute_complete = this.resultServerItem;
-			this.getDataFromDatabase( Params.SERVER_TABLE_NAME );
-
+//			this.execute_complete = this.resultServerItem;
+//			this.getDataFromDatabase( Params.SERVER_TABLE_NAME );
+			this.callBack();
 		}
 		
 
